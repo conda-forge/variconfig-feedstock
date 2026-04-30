@@ -1,0 +1,47 @@
+schema_version: 1
+
+context:
+  name: variconfig
+  version: "0.0.3"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/variconfig-${{ version }}.tar.gz
+  sha256: 8da228d37e76bdcb8bbfe5acecedab078f456005596616349bbe5d6fcdad5789
+
+build:
+  number: 1
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - setuptools >=64
+    - setuptools-scm >=8
+    - pip
+  run:
+    - python >=${{ python_min }}
+    - python-dotenv
+    - toml
+    - pyyaml
+
+tests:
+  - python:
+      imports:
+        - variconfig
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: VariConfig is a Python package for managing configuration files in a variety of formats and is able to handle variable substitution.
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/romerogroup/VariConfig
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
